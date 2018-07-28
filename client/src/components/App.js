@@ -6,7 +6,7 @@ import Landing from './Landing';
 import Header from './Header';
 
 const Dashboard = () => <h2>Dashboard</h2>;
-//const SurveyNew = () => <h2>SurveyNew</h2>;
+const SurveyNew = () => <h2>SurveyNew</h2>;
 
 class App extends Component {
   componentDidMount() {
@@ -19,10 +19,9 @@ class App extends Component {
         <BrowserRouter>
           <div>
             <Header />
-            <Route path="/surveys" component={Dashboard} />
+            <Route path="/surveys" exact component={Dashboard} />
             <Route path="/" exact component={Landing} />
-            <Route />
-            <Route />
+            <Route path="/surveys/new" component={SurveyNew} />
           </div>
         </BrowserRouter>
       </div>

@@ -10,9 +10,6 @@ import App from './components/App';
 
 const store = createStore(reducers, {}, applyMiddleware(reduxThunk));
 
-console.log('STRIPE KEY IS', process.env.REACT_APP_STRIPE_KEY);
-console.log('ENVIRONMENT IS', process.env.NODE_ENV);
-
 ReactDOM.render(
   <Provider store={store}>
     <App />
