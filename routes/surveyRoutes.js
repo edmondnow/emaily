@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const Path = require('path-parser');
+const { Path } = require('path-parser');
 const { URL } = require('url');
 const mongoose = require('mongoose');
 const requireLogin = require('../middlewares/requireLogin');
@@ -10,13 +10,49 @@ const surveyTemplate = require('../services/surveyTemplate');
 const Survey = mongoose.model('surveys');
 
 module.exports = app => {
-  app.get('/api/surveys/thanks', (req, res) => {
+  app.get('/api/surveys/:surveyId/:choice', (req, res) => {
     res.send('Thanks for voting!');
   });
 
+  app.get('/api/surveys', requireLogin, async (req, res) => {
+    //we do not need the long list of recipients
+    const surveys = await Survey.find({ _user: req.user.id }).select({
+      recipients: false
+    });
+
+    res.send(surveys);
+  });
+
   app.post('/api/surveys/webhooks', (req, res) => {
-    console.log(req.body, ' check!');
-    res.send({ hook: 'cool' });
+    res.send({ res: 'response not required by sendGrid ' });
+    const p = new Path('/api/surveys/:surveyId/:choice');
+
+    const events = _.chain(req.body)
+      .map(({ email, url }) => {
+        const match = p.test(new URL(url).pathname);
+        if (match) {
+          return { email, surveyId: match.surveyId, choice: match.choice };
+        }
+      })
+      .compact()
+      .uniqBy('email', 'surveyId')
+      .each(({ surveyId, email, choice }) => {
+        Survey.updateOne(
+          {
+            _id: surveyId,
+            recipients: {
+              $elemMatch: { email: email, responded: false }
+            }
+          },
+          {
+            $inc: { [choice]: 1 },
+            $set: { 'recipients.$.responded': true },
+            lastResponded: new Date()
+            // we call .exec() to execute the query, without it it wouldn't
+          }
+        ).exec();
+      })
+      .value();
   });
 
   app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
