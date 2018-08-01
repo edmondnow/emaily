@@ -1,3 +1,6 @@
+const _ = require('lodash');
+const Path = require('path-parser');
+const { URL } = require('url');
 const mongoose = require('mongoose');
 const requireLogin = require('../middlewares/requireLogin');
 const requireCredits = require('../middlewares/requireCredits');
@@ -7,7 +10,7 @@ const surveyTemplate = require('../services/surveyTemplate');
 const Survey = mongoose.model('surveys');
 
 module.exports = app => {
-  app.get('/api/survey/thanks', (req, res) => {
+  app.get('/api/surveys/thanks', (req, res) => {
     res.send('Thanks for voting!');
   });
 
