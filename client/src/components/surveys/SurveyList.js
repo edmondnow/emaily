@@ -6,9 +6,11 @@ class SurveyList extends Component {
   renderSurveys() {
     return this.props.surveys.reverse().map(survey => {
       return (
-        <div className="card blue-gray darken-1" key={survey.id}>
+        <div className="card darken-1" key={survey.id} style={cardStyle}>
           <div className="card-content text-white">
-            <span className="card-title">{survey.title}</span>
+            <span className="card-title" style={cardTitleStyle}>
+              {survey.title}
+            </span>
             <p>{survey.body}</p>
             <p className="right">
               Sent On: {new Date(survey.dateSent).toLocaleDateString()}
@@ -29,6 +31,15 @@ class SurveyList extends Component {
     return <div>{this.renderSurveys()}</div>;
   }
 }
+
+const cardStyle = {
+  backgroundColor: '#455268',
+  color: 'white'
+};
+
+const cardTitleStyle = {
+  color: '#FF8000'
+};
 
 function mapStateToProps({ surveys }) {
   return { surveys };

@@ -4,31 +4,53 @@ import { connect } from 'react-redux';
 import * as actions from '../actions';
 import Landing from './Landing';
 import Header from './Header';
+import Footer from './Footer';
 import Dashboard from './Dashboard';
 import SurveyNew from './surveys/SurveyNew';
 
 class App extends Component {
-  componentDidMount() {
-    this.props.fetchUser();
+  constructor(props) {
+    super(props);
+    this.state = { width: 0, height: 0 };
+    this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
   }
 
+  componentDidMount() {
+    this.props.fetchUser();
+    this.updateWindowDimensions();
+    window.addEventListener('resize', this.updateWindowDimensions);
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateWindowDimensions);
+  }
+  updateWindowDimensions() {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  }
+
+  getWindowHeight() {
+    return {
+      minHeight: this.state.height,
+      padding: '10px 20px',
+      backgroundColor: '#FFCF75'
+    };
+  }
   render() {
     return (
-      <div className="container" style={style}>
+      <div className="container" style={this.getWindowHeight()}>
         <BrowserRouter>
           <div>
             <Header />
             <Route path="/surveys" exact component={Dashboard} />
             <Route path="/" exact component={Landing} />
-            <Route path="/surveys/new" component={SurveyNew} />
+            <Route path="/surveys/new" exact component={SurveyNew} />
+            <Footer />
           </div>
         </BrowserRouter>
       </div>
     );
   }
 }
-
-const style = { background: 'linear-gradient(to top, #06beb6, #48b1bf)' };
 
 export default connect(
   null,

@@ -16,7 +16,11 @@ class Header extends Component {
         );
       default:
         return [
-          <ul className="left" key="left" style={{ margin: '0px 100px' }}>
+          <ul
+            className="left navbar"
+            key="left"
+            style={{ margin: '0px 100px', color: 'black' }}
+          >
             <li>
               <a href="/surveys">Dashboard</a>
             </li>
@@ -41,18 +45,24 @@ class Header extends Component {
   render() {
     return (
       <nav>
-        <div className="nav-wrapper">
+        <header className="nav-wrapper lime" style={{ color: 'black' }}>
           <div>
             <Link
               className="left brand-logo"
               to={this.props.auth ? '/surveys' : '/'}
-              style={{ margin: '0px 10px' }}
+              style={{
+                margin: '0px 10px',
+                color: '#FF8000',
+                fontFamily: 'Do Hyeo',
+                WebkitTextStrokeWidth: '0.5px',
+                WebkitTextStrokeColor: 'black'
+              }}
             >
               Emaily
             </Link>
           </div>
           <div>{this.renderContent()}</div>
-        </div>
+        </header>
       </nav>
     );
   }
