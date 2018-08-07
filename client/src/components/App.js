@@ -14,7 +14,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container" style={style}>
         <BrowserRouter>
           <div>
             <Header />
@@ -27,6 +27,8 @@ class App extends Component {
     );
   }
 }
+
+const style = { background: 'linear-gradient(to top, #06beb6, #48b1bf)' };
 
 export default connect(
   null,

@@ -16,15 +16,25 @@ class Header extends Component {
         );
       default:
         return [
-          <li key={1}>
-            <Payments />
-          </li>,
-          <li key={3} style={{ margin: '0 10px' }}>
-            Credits: {this.props.auth.credits}
-          </li>,
-          <li key={2}>
-            <a href="/api/logout">Logout</a>
-          </li>
+          <ul className="left" key="left" style={{ margin: '0px 100px' }}>
+            <li>
+              <a href="/surveys">Dashboard</a>
+            </li>
+            <li>
+              <a href="/surveys/new">New Survey</a>
+            </li>
+          </ul>,
+          <ul className="right" key="right">
+            <li key={1}>
+              <Payments />
+            </li>
+            <li key={3} style={{ margin: '0 10px' }}>
+              Credits: {this.props.auth.credits}
+            </li>
+            <li key={2}>
+              <a href="/api/logout">Logout</a>
+            </li>
+          </ul>
         ];
     }
   }
@@ -32,13 +42,16 @@ class Header extends Component {
     return (
       <nav>
         <div className="nav-wrapper">
-          <Link
-            className="left brand-logo"
-            to={this.props.auth ? '/surveys' : '/'}
-          >
-            Emaily
-          </Link>
-          <ul className="right">{this.renderContent()}</ul>
+          <div>
+            <Link
+              className="left brand-logo"
+              to={this.props.auth ? '/surveys' : '/'}
+              style={{ margin: '0px 10px' }}
+            >
+              Emaily
+            </Link>
+          </div>
+          <div>{this.renderContent()}</div>
         </div>
       </nav>
     );
