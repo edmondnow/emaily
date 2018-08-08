@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faGithub,
@@ -9,7 +9,7 @@ import Dimensions from 'react-dimensions';
 
 const getStyle = width => {
   return {
-    position: 'absolute',
+    position: width <= 760 ? 'relative' : 'absolute',
     bottom: 10,
     paddingTop: 0,
     width: width
@@ -37,18 +37,19 @@ const anchorStyle = {
 
 const iconStyle = { margin: '10px 20px 10px 0px' };
 
-const Footer = props => {
-  console.log(props.width);
-  return (
-    <footer
-      className="page-footer lime z-depth-1"
-      style={getStyle(props.containerWidth)}
-    >
-      <div className="center-align">
-        {renderContent([faGithub, faLinkedin, faTwitter])}
-      </div>
-    </footer>
-  );
-};
+class Footer extends Component {
+  render() {
+    return (
+      <footer
+        className="page-footer z-depth-1"
+        style={getStyle(this.props.containerWidth)}
+      >
+        <div className="center-align">
+          {renderContent([faGithub, faLinkedin, faTwitter])}
+        </div>
+      </footer>
+    );
+  }
+}
 
 export default Dimensions()(Footer);

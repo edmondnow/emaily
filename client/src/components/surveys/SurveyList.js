@@ -1,45 +1,43 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { fetchSurveys } from '../../actions';
+import SurveyBody from './SurveyBody';
 
 class SurveyList extends Component {
   renderSurveys() {
-    return this.props.surveys.reverse().map(survey => {
-      return (
-        <div className="card darken-1" key={survey.id} style={cardStyle}>
-          <div className="card-content text-white">
-            <span className="card-title" style={cardTitleStyle}>
-              {survey.title}
-            </span>
-            <p>{survey.body}</p>
-            <p className="right">
-              Sent On: {new Date(survey.dateSent).toLocaleDateString()}
-            </p>
-          </div>
-          <div className="card-action">
-            <a>Yes: {survey.yes}</a>
-            <a>No: {survey.no}</a>
-          </div>
-        </div>
-      );
-    });
+    return this.props.surveys
+      .reverse()
+      .map(survey => <SurveyBody survey={survey} />);
   }
   componentDidMount() {
     this.props.fetchSurveys();
   }
   render() {
-    return <div>{this.renderSurveys()}</div>;
+    if (this.props.surveys.length === 0) {
+      return (
+        <div
+          style={{
+            color: 'white',
+            WebkitTextStrokeWidth: '1px',
+            WebkitTextStrokeColor: 'black',
+            marginTop: '50px'
+          }}
+          className="card-panel teal"
+        >
+          <h2 className="center-align text-white">
+            You have no surveys yet,{' '}
+            <a href="/surveys/new" style={{ color: '#FF8000' }}>
+              {' '}
+              create some!
+            </a>
+          </h2>
+        </div>
+      );
+    }
+
+    return <div style={{ padding: '10px' }}>{this.renderSurveys()}</div>;
   }
 }
-
-const cardStyle = {
-  backgroundColor: '#455268',
-  color: 'white'
-};
-
-const cardTitleStyle = {
-  color: '#FF8000'
-};
 
 function mapStateToProps({ surveys }) {
   return { surveys };

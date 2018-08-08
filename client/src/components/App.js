@@ -42,9 +42,15 @@ class App extends Component {
           <div>
             <Header />
             <Route path="/surveys" exact component={Dashboard} />
-            <Route path="/" exact component={Landing} />
+            <Route
+              path="/"
+              exact
+              render={props => (
+                <Landing {...props} height={this.state.height} />
+              )}
+            />
             <Route path="/surveys/new" exact component={SurveyNew} />
-            <Footer />
+            <Footer width={this.state.width} />
           </div>
         </BrowserRouter>
       </div>

@@ -2,10 +2,11 @@ body {
   background: #2c3e50; /* fallback for old browsers */
 }
 
-#root {
-  background: #2c3e50; /* fallback for old browsers */
-}
-
 li > a {
   color: black !important;
+}
+
+.nav,
+.bm-menu-wrap {
+  background-color: #d4e157 !important ;
 }

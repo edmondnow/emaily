@@ -16,6 +16,7 @@ module.exports = app => {
 
   app.get('/api/surveys', requireLogin, async (req, res) => {
     //we do not need the long list of recipients
+
     const surveys = await Survey.find({ _user: req.user.id }).select({
       recipients: false
     });
@@ -53,6 +54,19 @@ module.exports = app => {
         ).exec();
       })
       .value();
+  });
+
+  app.post('/api/surveys/delete', requireLogin, async (req, res) => {
+    const { _id } = req.body;
+    Survey.findByIdAndRemove(_id).then(async () => {
+      //we do not need the long list of recipients
+
+      const surveys = await Survey.find({ _user: req.user.id }).select({
+        recipients: false
+      });
+
+      res.send(surveys);
+    });
   });
 
   app.post('/api/surveys', requireLogin, requireCredits, async (req, res) => {
